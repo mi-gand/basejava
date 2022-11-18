@@ -63,10 +63,10 @@ public class ArrayStorage {
         }
     }
 
-
     /**
      * @return array, contains only Resumes in storage (without null)
      */
+
     Resume[] getAll() {
         int newArraySize = size();
         Resume[] response = new Resume[newArraySize];
