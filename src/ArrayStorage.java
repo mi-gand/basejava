@@ -7,12 +7,12 @@ public class ArrayStorage {
     private Resume[] storage = new Resume[10000];
     private int size = 0;
 
-    void clear() {
+    public void clear() {
         Arrays.fill(storage, null);
         this.size = 0;
     }
 
-    void save(Resume r) {
+    public void save(Resume r) {
         if (r.uuid == null) {         //если пользователь вбивает только команду save без uuid
             return;
         }
@@ -20,7 +20,7 @@ public class ArrayStorage {
         this.size++;
     }
 
-    Resume get(String uuid) {
+    public Resume get(String uuid) {
         Resume r = new Resume();
         for (int i = 0; i < this.size; i++) {
             if (storage[i].toString().equals(uuid)) {
@@ -30,7 +30,7 @@ public class ArrayStorage {
         return r;
     }
 
-    void delete(String uuid) {
+    public void delete(String uuid) {
         int deletedIndex = -1;
         for (int i = 0; i < storage.length; i++) {
             if (storage[i].toString().equals(uuid)) {
@@ -48,11 +48,11 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
 
-    Resume[] getAll() {
+    public Resume[] getAll() {
         return Arrays.copyOf(this.storage, this.size);
     }
 
-    int getSize() {
+    public int getSize() {
         return this.size;
     }
 }
