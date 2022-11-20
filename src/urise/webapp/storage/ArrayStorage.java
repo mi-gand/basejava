@@ -9,7 +9,7 @@ import java.util.Arrays;
  */
 public class ArrayStorage {
     private static final int STORAGE_CAPACITY = 10000;
-    private Resume[] storage = new Resume[STORAGE_CAPACITY];
+    private final Resume[] storage = new Resume[STORAGE_CAPACITY];
     private int size;
 
     public void clear() {
@@ -77,7 +77,7 @@ public class ArrayStorage {
         return size;
     }
 
-    final int getIndex(String uuid) {
+    private int getIndex(String uuid) {
         if (size == 0) {
             return -1;
         }
