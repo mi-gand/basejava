@@ -47,10 +47,10 @@ public class ArrayStorage {
 
     public Resume get(String uuid) {
         int index = getIndex(uuid);
-        if (index != -1) {
-            return storage[index];
-        } else {
+        if (index < 0) {
             return null;
+        } else {
+            return storage[index];
         }
     }
 
