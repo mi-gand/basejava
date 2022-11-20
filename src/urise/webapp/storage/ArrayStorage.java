@@ -18,51 +18,50 @@ public class ArrayStorage {
     }
 
     public void update(Resume resume) {
-        String tmpUuid = resume.getUuid();
-        int resumeExistOnIndex = checkExistResume(tmpUuid);
-        if (resumeExistOnIndex != -1) {
-            storage[resumeExistOnIndex] = resume;
-            System.out.println("Резюме с id: " + tmpUuid + " обновлено");
-        } else {
+        String uuid = resume.getUuid();
+        int index = getIndex(uuid);
+        if (index < 0) {
             System.out.println("Такого резюме не существует");
+        } else {
+            storage[index] = resume;
+            System.out.println("Резюме с id: " + uuid + " обновлено");
         }
     }
 
     public void save(Resume r) {
-        if(size == STORAGE_CAPACITY - 1) {
+        String uuid = r.getUuid();
+        if (uuid == null) {         //если пользователь вбивает только команду save без uuid
+            return;
+        }
+        int index = getIndex(uuid);
+        if (size == STORAGE_CAPACITY - 1) {
             System.out.println("Хранилище переполнено");
             return;
-        }
-        String tmpUuid = r.getUuid();
-        if (tmpUuid == null) {         //если пользователь вбивает только команду save без uuid
-            return;
-        }
-        int resumeExistOnIndex = checkExistResume(tmpUuid);
-        if (resumeExistOnIndex == -1) {
+        } else if (index < 0) {
             storage[size] = r;
             size++;
         } else {
-            System.out.println("Резюме с id: " + tmpUuid + "уже существует");
+            System.out.println("Резюме с id: " + uuid + "уже существует");
         }
     }
 
     public Resume get(String uuid) {
-        int resumeExistOnIndex = checkExistResume(uuid);
-        if (resumeExistOnIndex != -1) {
-            return storage[resumeExistOnIndex];
+        int index = getIndex(uuid);
+        if (index != -1) {
+            return storage[index];
         } else {
             return null;
         }
     }
 
     public void delete(String uuid) {
-        int resumeExistOnIndex = checkExistResume(uuid);
-        if(resumeExistOnIndex != -1){
-            storage[resumeExistOnIndex] = storage[size - 1];
+        int index = getIndex(uuid);
+        if (index < 0) {
+            System.out.println("Резюме с id: " + uuid + " не существует");
+        } else {
+            storage[index] = storage[size - 1];
             storage[size - 1] = null;
             size--;
-        }else{
-            System.out.println("Резюме с id: " + uuid + " не существует");
         }
     }
 
@@ -78,8 +77,10 @@ public class ArrayStorage {
         return size;
     }
 
-    private int checkExistResume(String uuid) {
-        if(size == 0) return -1;
+    final int getIndex(String uuid) {
+        if (size == 0) {
+            return -1;
+        }
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(uuid)) {
                 return i;
