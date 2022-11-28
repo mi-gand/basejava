@@ -1,16 +1,14 @@
-package urise.webapp.model;
-
-import java.util.Objects;
+package ru.javawebinar.basejava.model;
 
 /**
  * Initial resume class
  */
-public class Resume {
+public class Resume implements Comparable<Resume> {
 
     // Unique identifier
     private String uuid;
 
-    public Resume(String uuid){
+    public Resume(String uuid) {
         this.uuid = uuid;
     }
 
@@ -28,11 +26,16 @@ public class Resume {
 
     @Override
     public int hashCode() {
-        return Objects.hash(uuid);
+        return uuid.hashCode();
     }
 
     @Override
     public String toString() {
         return uuid;
+    }
+
+    @Override
+    public int compareTo(Resume o) {
+        return getUuid().compareTo(o.getUuid());
     }
 }

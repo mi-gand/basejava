@@ -1,16 +1,13 @@
-package urise.webapp.storage;
+package ru.javawebinar.basejava.storage;
 
-import urise.webapp.model.Resume;
+import ru.javawebinar.basejava.model.Resume;
 
 import java.util.Arrays;
 
-/**
- * Array based storage for Resumes
- */
-public class ArrayStorage {
-    private static final int STORAGE_CAPACITY = 10000;
-    private final Resume[] storage = new Resume[STORAGE_CAPACITY];
-    private int size;
+public abstract class AbstractArrayStorage implements Storage {
+    protected static final int STORAGE_CAPACITY = 10000;
+    protected final Resume[] storage = new Resume[STORAGE_CAPACITY];
+    protected int size;
 
     public void clear() {
         Arrays.fill(storage, 0, size, null);
@@ -30,18 +27,14 @@ public class ArrayStorage {
 
     public void save(Resume r) {
         String uuid = r.getUuid();
-        if (uuid == null) {         //если пользователь вбивает только команду save без uuid
-            return;
-        }
         int index = getIndex(uuid);
         if (size == STORAGE_CAPACITY - 1) {
             System.out.println("Хранилище переполнено");
-            return;
-        } else if (index < 0) {
+        } else if (index > 0) {
+            System.out.println("Резюме с id: " + uuid + "уже существует");
+        } else {
             storage[size] = r;
             size++;
-        } else {
-            System.out.println("Резюме с id: " + uuid + "уже существует");
         }
     }
 
@@ -77,15 +70,5 @@ public class ArrayStorage {
         return size;
     }
 
-    private int getIndex(String uuid) {
-        if (size == 0) {
-            return -1;
-        }
-        for (int i = 0; i < size; i++) {
-            if (storage[i].getUuid().equals(uuid)) {
-                return i;
-            }
-        }
-        return -1;
-    }
+    protected abstract int getIndex(String uuid);
 }

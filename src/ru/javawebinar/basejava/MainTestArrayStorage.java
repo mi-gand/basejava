@@ -1,16 +1,19 @@
-import urise.webapp.model.Resume;
-import urise.webapp.storage.ArrayStorage;
+package ru.javawebinar.basejava;
+
+import ru.javawebinar.basejava.model.Resume;
+import ru.javawebinar.basejava.storage.AbstractArrayStorage;
+import ru.javawebinar.basejava.storage.SortedArrayStorage;
 
 /**
  * Test for your urise.webapp.storage.ArrayStorage implementation
  */
 public class MainTestArrayStorage {
-    static final ArrayStorage ARRAY_STORAGE = new ArrayStorage();
+    static final AbstractArrayStorage ARRAY_STORAGE = new SortedArrayStorage();
 
     public static void main(String[] args) {
         Resume r1 = new Resume("uuid1");
-        Resume r2 = new Resume("uuid2");
-        Resume r3 = new Resume("uuid3");
+        Resume r2 = new Resume("uuid3");
+        Resume r3 = new Resume("uuid2");
 
         ARRAY_STORAGE.save(r1);
         ARRAY_STORAGE.save(r2);
@@ -21,8 +24,10 @@ public class MainTestArrayStorage {
 
         System.out.println("Get dummy: " + ARRAY_STORAGE.get("dummy"));
 
-        Resume r4 = new Resume("uuid4");
+        Resume r4 = new Resume("uuid9");
         ARRAY_STORAGE.update(r4);
+        ARRAY_STORAGE.save(r4);
+        System.out.println("Get r4 with uuid9: " + ARRAY_STORAGE.get(r4.getUuid()));
 
         Resume r5 = new Resume("uuid3");
         ARRAY_STORAGE.update(r5);
