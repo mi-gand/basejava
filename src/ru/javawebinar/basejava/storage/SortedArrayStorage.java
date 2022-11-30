@@ -11,36 +11,16 @@ public class SortedArrayStorage extends AbstractArrayStorage {
         return Arrays.binarySearch(storage, 0, getSize(), new Resume(uuid), Resume::compareTo);
     }
 
-
     @Override
-    public void save(Resume r) {
-        if(size == 0 || r.getUuid().compareTo(storage[size - 1].getUuid()) > 0){
-            storage[size] = r;
-            size++;
-        }else{
-            System.out.println("Ошибка присвоения uuid");
+    protected void fillArray(int deletedIndex) {
+        for (int i = deletedIndex; i < size; i++) {
+            storage[i] = storage[i + 1];
         }
+        size--;
     }
 
     @Override
-    public void delete(String uuid) {
-        int deletedIndex = -1;
-        for (int i = 0; i < size; i++) {
-            if (storage[i].toString().equals(uuid)) {
-                deletedIndex = i;
-                shiftArray(deletedIndex);
-                size--;
-                break;
-            }
-        }
-        if(deletedIndex < 0){
-            System.out.println("Резюме с id: " + uuid + " не существует");
-        }
-    }
-
-    private void shiftArray(int startIndex) {       //сдвиг массива на место удаляемого элемента
-        for (int i = startIndex; i < size; i++) {
-                storage[i] = storage [i + 1];
-        }
+    protected boolean checkUuid(Resume r) {     //новое резюме не должно быть старше по порядку, чем предыдущее
+        return (size == 0 || r.getUuid().compareTo(storage[size - 1].getUuid()) > 0);
     }
 }

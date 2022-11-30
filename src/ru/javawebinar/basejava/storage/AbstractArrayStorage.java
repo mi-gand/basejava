@@ -26,16 +26,21 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     public void save(Resume r) {
-        String uuid = r.getUuid();
-        int index = getIndex(uuid);
-        if (size == STORAGE_CAPACITY - 1) {
-            System.out.println("Хранилище переполнено");
-        } else if (index > 0) {
-            System.out.println("Резюме с id: " + uuid + "уже существует");
+        if (checkUuid(r)) {
+            String uuid = r.getUuid();
+            int index = getIndex(uuid);
+            if (size == STORAGE_CAPACITY - 1) {
+                System.out.println("Хранилище переполнено");
+            } else if (index > 0) {
+                System.out.println("Резюме с id: " + uuid + "уже существует");
+            } else {
+                storage[size] = r;
+                size++;
+            }
         } else {
-            storage[size] = r;
-            size++;
+            System.out.println("Присвоен неправильный uuid");
         }
+
     }
 
     public Resume get(String uuid) {
@@ -52,9 +57,7 @@ public abstract class AbstractArrayStorage implements Storage {
         if (index < 0) {
             System.out.println("Резюме с id: " + uuid + " не существует");
         } else {
-            storage[index] = storage[size - 1];
-            storage[size - 1] = null;
-            size--;
+            fillArray(index);
         }
     }
 
@@ -70,5 +73,12 @@ public abstract class AbstractArrayStorage implements Storage {
         return size;
     }
 
+    /*метод для получения индекса*/
     protected abstract int getIndex(String uuid);
+
+    /*метод для заполнения пустой ячейки storage при удалении резюме*/
+    protected abstract void fillArray(int deletedIndex);
+
+    /*метод для SortedArrayStorage для проверки сквозной нумерации*/
+    protected abstract boolean checkUuid(Resume r);
 }
