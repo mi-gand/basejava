@@ -7,20 +7,26 @@ import java.util.Arrays;
 public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
+    protected void InsertInOrder(Resume r) {
+        int index = getIndex(r.getUuid());
+        index = Math.abs(index) - 1;
+        if (storage[index] != null) {
+            int copyElements = size - index;
+            System.arraycopy(storage, index, storage, index + 1, copyElements);
+            storage[index] = r;
+        } else {
+            storage[index] = r;
+        }
+    }
+
+    @Override
     protected int getIndex(String uuid) {
         return Arrays.binarySearch(storage, 0, getSize(), new Resume(uuid), Resume::compareTo);
     }
 
     @Override
     protected void fillArray(int deletedIndex) {
-        for (int i = deletedIndex; i < size; i++) {
-            storage[i] = storage[i + 1];
-        }
-        size--;
-    }
-
-    @Override
-    protected boolean checkUuid(Resume r) {     //новое резюме не должно быть старше по порядку, чем предыдущее
-        return (size == 0 || r.getUuid().compareTo(storage[size - 1].getUuid()) > 0);
+        int copyElements = size - deletedIndex;
+        System.arraycopy(storage, deletedIndex + 1, storage, deletedIndex, copyElements);
     }
 }
