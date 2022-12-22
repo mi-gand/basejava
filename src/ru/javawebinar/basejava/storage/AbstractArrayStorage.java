@@ -1,5 +1,8 @@
 package ru.javawebinar.basejava.storage;
 
+import ru.javawebinar.basejava.exceptions.ExistStorageException;
+import ru.javawebinar.basejava.exceptions.NotExistStorageException;
+import ru.javawebinar.basejava.exceptions.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 
 import java.util.Arrays;
@@ -18,22 +21,34 @@ public abstract class AbstractArrayStorage implements Storage {
         String uuid = resume.getUuid();
         int index = getIndex(uuid);
         if (index < 0) {
-            System.out.println("Такого резюме не существует");
+            try {
+                throw new NotExistStorageException(uuid);
+            } catch (NotExistStorageException e) {
+                System.out.println(e.getMessage());
+            }
         } else {
             storage[index] = resume;
-            System.out.println("Резюме с id: " + uuid + " обновлено");
+            System.out.println("Resume with id: \"" + uuid + "\" updated");
         }
     }
 
-    public void save(Resume r) {
+    public void save(Resume r)  {
         String uuid = r.getUuid();
         int index = getIndex(uuid);
-        if (size == STORAGE_CAPACITY - 1) {
-            System.out.println("Хранилище переполнено");
+        if (size == STORAGE_CAPACITY) {
+            try {
+                throw new StorageException("The storage is full", uuid);
+            } catch (StorageException e) {
+                System.out.println(e.getMessage() + ". uuid: \"" + uuid + "\" not saved");
+            }
         } else if (index >= 0) {
-            System.out.println("Резюме с id: " + uuid + "уже существует");
+            try {
+                throw new ExistStorageException(uuid);
+            } catch (ExistStorageException e) {
+                System.out.println(e.getMessage());
+            }
         } else {
-            InsertInOrder(r);
+            insertResume(r, index);
             size++;
         }
     }
@@ -50,12 +65,20 @@ public abstract class AbstractArrayStorage implements Storage {
     public void delete(String uuid) {
         int index = getIndex(uuid);
         if (index < 0) {
-            System.out.println("Резюме с id: " + uuid + " не существует");
+            try {
+                throw new NotExistStorageException(uuid);
+            } catch (NotExistStorageException e) {
+                System.out.println(e.getMessage());
+            }
         } else {
-            fillArray(index);
+            fillDeletedElement(index);
             storage[size - 1] = null;
             size--;
         }
+    }
+
+    public int getStorageCapacity(){
+        return STORAGE_CAPACITY;
     }
 
     /**
@@ -70,11 +93,11 @@ public abstract class AbstractArrayStorage implements Storage {
         return size;
     }
 
-    protected abstract void InsertInOrder(Resume resume);
+    protected abstract void insertResume(Resume resume, int index);
 
     /*метод для получения индекса*/
     protected abstract int getIndex(String uuid);
 
     /*метод для заполнения пустой ячейки storage при удалении резюме*/
-    protected abstract void fillArray(int deletedIndex);
+    protected abstract void fillDeletedElement(int deletedIndex);
 }

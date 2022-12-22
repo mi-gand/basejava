@@ -8,7 +8,7 @@ import ru.javawebinar.basejava.model.Resume;
 public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
-    protected void InsertInOrder(Resume r) {
+    protected void insertResume(Resume r, int index) {
         storage[size] = r;
     }
 
@@ -23,7 +23,7 @@ public class ArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void fillArray(int deletedIndex) {
+    protected void fillDeletedElement(int deletedIndex) {
         storage[deletedIndex] = storage[size - 1];
     }
 }

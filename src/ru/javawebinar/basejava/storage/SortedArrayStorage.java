@@ -7,16 +7,11 @@ import java.util.Arrays;
 public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
-    protected void InsertInOrder(Resume r) {
-        int index = getIndex(r.getUuid());
+    protected void insertResume(Resume r, int index) {
         index = Math.abs(index) - 1;
-        if (storage[index] != null) {
-            int copyElements = size - index;
-            System.arraycopy(storage, index, storage, index + 1, copyElements);
-            storage[index] = r;
-        } else {
-            storage[index] = r;
-        }
+        int copyElements = size - index;
+        System.arraycopy(storage, index, storage, index + 1, copyElements);
+        storage[index] = r;
     }
 
     @Override
@@ -25,7 +20,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void fillArray(int deletedIndex) {
+    protected void fillDeletedElement(int deletedIndex) {
         int copyElements = size - deletedIndex;
         System.arraycopy(storage, deletedIndex + 1, storage, deletedIndex, copyElements);
     }
