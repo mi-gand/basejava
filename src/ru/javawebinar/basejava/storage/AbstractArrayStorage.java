@@ -21,32 +21,20 @@ public abstract class AbstractArrayStorage implements Storage {
         String uuid = resume.getUuid();
         int index = getIndex(uuid);
         if (index < 0) {
-            try {
-                throw new NotExistStorageException(uuid);
-            } catch (NotExistStorageException e) {
-                System.out.println(e.getMessage());
-            }
+            throw new NotExistStorageException(uuid);
         } else {
             storage[index] = resume;
             System.out.println("Resume with id: \"" + uuid + "\" updated");
         }
     }
 
-    public void save(Resume r)  {
+    public void save(Resume r) {
         String uuid = r.getUuid();
         int index = getIndex(uuid);
         if (size == STORAGE_CAPACITY) {
-            try {
-                throw new StorageException("The storage is full", uuid);
-            } catch (StorageException e) {
-                System.out.println(e.getMessage() + ". uuid: \"" + uuid + "\" not saved");
-            }
+            throw new StorageException("The storage is full", uuid);
         } else if (index >= 0) {
-            try {
-                throw new ExistStorageException(uuid);
-            } catch (ExistStorageException e) {
-                System.out.println(e.getMessage());
-            }
+            throw new ExistStorageException(uuid);
         } else {
             insertResume(r, index);
             size++;
@@ -65,11 +53,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public void delete(String uuid) {
         int index = getIndex(uuid);
         if (index < 0) {
-            try {
-                throw new NotExistStorageException(uuid);
-            } catch (NotExistStorageException e) {
-                System.out.println(e.getMessage());
-            }
+            throw new NotExistStorageException(uuid);
         } else {
             fillDeletedElement(index);
             storage[size - 1] = null;
@@ -77,7 +61,7 @@ public abstract class AbstractArrayStorage implements Storage {
         }
     }
 
-    public int getStorageCapacity(){
+    public int getStorageCapacity() {
         return STORAGE_CAPACITY;
     }
 

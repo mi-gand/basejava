@@ -7,8 +7,7 @@ import java.lang.reflect.Method;
 
 public class MainReflection {
 
-    public static void main(String[] args) throws InvocationTargetException, IllegalAccessException,
-            ClassNotFoundException, NoSuchMethodException {
+    public static void main(String[] args) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         Resume resume = new Resume("u2");
         Class c = Resume.class;
         Method toStringMethod = c.getMethod("toString");
