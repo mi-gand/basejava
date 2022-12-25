@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ArrayStorageTest extends AbstractArrayStorageTest {
 
     public ArrayStorageTest() {
-        storage = new ArrayStorage();
+        super(new ArrayStorage());
     }
 
     @Deprecated

@@ -1,14 +1,15 @@
 package ru.javawebinar.basejava.storage;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import ru.javawebinar.basejava.model.Resume;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SortedArrayStorageTest extends ArrayStorageTest {
+public class SortedArrayStorageTest extends AbstractArrayStorageTest {
 
     public SortedArrayStorageTest() {
-        storage = new SortedArrayStorage();
+        super(new SortedArrayStorage());
     }
 
     @Deprecated
