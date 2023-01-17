@@ -1,11 +1,10 @@
 package ru.javawebinar.basejava.storage;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import ru.javawebinar.basejava.model.Resume;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
+@Deprecated
 public class SortedArrayStorageTest extends AbstractArrayStorageTest {
 
     public SortedArrayStorageTest() {
@@ -15,7 +14,7 @@ public class SortedArrayStorageTest extends AbstractArrayStorageTest {
     @Deprecated
     @Override
     protected void checkOrder() {
-        Resume[] resumes = storage.getAll();
+        Resume[] resumes = storage.getAllinArr();
         int expectedLength = 4;
         Assertions.assertAll("Deleted u3 in abstractClass",
                 () -> assertEquals(new Resume("u1"), resumes[0]),

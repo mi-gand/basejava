@@ -6,8 +6,9 @@ import ru.javawebinar.basejava.exceptions.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 
 import java.util.Arrays;
+@Deprecated
 
-public abstract class AbstractArrayStorage implements Storage {
+public abstract class AbstractArrayStorage extends AbstractStorage {
     protected static final int STORAGE_CAPACITY = 10000;
     protected final Resume[] storage = new Resume[STORAGE_CAPACITY];
     protected int size;
@@ -44,7 +45,8 @@ public abstract class AbstractArrayStorage implements Storage {
     public Resume get(String uuid) {
         int index = getIndex(uuid);
         if (index < 0) {
-            return null;
+            //return null;
+            throw new NotExistStorageException(uuid);
         } else {
             return storage[index];
         }
@@ -69,7 +71,7 @@ public abstract class AbstractArrayStorage implements Storage {
      * @return array, contains only Resumes in storage (without null)
      */
 
-    public Resume[] getAll() {
+    public Resume[] getAllinArr() {
         return Arrays.copyOf(storage, size);
     }
 

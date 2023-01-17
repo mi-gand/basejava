@@ -5,6 +5,7 @@ import ru.javawebinar.basejava.model.Resume;
 /**
  * Array based storage for Resumes
  */
+@Deprecated
 public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
