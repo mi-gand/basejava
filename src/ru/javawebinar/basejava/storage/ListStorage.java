@@ -1,10 +1,7 @@
 package ru.javawebinar.basejava.storage;
 
-import ru.javawebinar.basejava.exceptions.ExistStorageException;
-import ru.javawebinar.basejava.exceptions.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
