@@ -7,17 +7,12 @@ import ru.javawebinar.basejava.model.Resume;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static ru.javawebinar.basejava.storage.AbstractArrayStorage.STORAGE_CAPACITY;
-@Deprecated
+
 public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
 
     protected AbstractArrayStorageTest(Storage storage) {
         super(storage);
     }
-
-/*    @AfterEach
-    void clearAfterTest() {
-        storage.clear();
-    }*/
 
     @Test
     void testClear() {

@@ -1,12 +1,9 @@
 package ru.javawebinar.basejava.storage;
 
-import ru.javawebinar.basejava.exceptions.ExistStorageException;
-import ru.javawebinar.basejava.exceptions.NotExistStorageException;
 import ru.javawebinar.basejava.exceptions.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 
 import java.util.Arrays;
-@Deprecated
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
     protected static final int STORAGE_CAPACITY = 10000;
@@ -18,50 +15,40 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         size = 0;
     }
 
-    public void update(Resume resume) {
-        String uuid = resume.getUuid();
-        int index = getIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        } else {
-            storage[index] = resume;
-            System.out.println("Resume with id: \"" + uuid + "\" updated");
-        }
+    @Override
+    protected void doUpdate(Resume resume, Object index) {
+        storage[(Integer) index] = resume;
     }
 
-    public void save(Resume r) {
-        String uuid = r.getUuid();
-        int index = getIndex(uuid);
+    @Override
+    protected void doSave(Resume resume, Object index) {
         if (size == STORAGE_CAPACITY) {
-            throw new StorageException("The storage is full", uuid);
-        } else if (index >= 0) {
-            throw new ExistStorageException(uuid);
+            throw new StorageException("The storage is full", resume.getUuid());
         } else {
-            insertResume(r, index);
+            insertResume(resume, (Integer) index);
             size++;
         }
     }
 
-    public Resume get(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            //return null;
-            throw new NotExistStorageException(uuid);
-        } else {
-            return storage[index];
-        }
+    @Override
+    protected Resume doGet(Object index) {
+        return storage[(Integer) index];
     }
 
-    public void delete(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        } else {
-            fillDeletedElement(index);
-            storage[size - 1] = null;
-            size--;
-        }
+    @Override
+    protected void doDelete(Object index) {
+        fillDeletedElement((Integer) index);
+        storage[size - 1] = null;
+        size--;
     }
+
+    @Override
+    protected boolean isExist(Object index) {
+        return (Integer) (index) >= 0;
+    }
+
+    @Override
+    protected abstract Integer getSearchKey(String uuid);
 
     public int getStorageCapacity() {
         return STORAGE_CAPACITY;
@@ -79,11 +66,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return size;
     }
 
-    protected abstract void insertResume(Resume resume, int index);
-
-    /*метод для получения индекса*/
-    protected abstract int getIndex(String uuid);
+    protected abstract void insertResume(Resume resume, Integer index);
 
     /*метод для заполнения пустой ячейки storage при удалении резюме*/
-    protected abstract void fillDeletedElement(int deletedIndex);
+    protected abstract void fillDeletedElement(Integer deletedIndex);
 }

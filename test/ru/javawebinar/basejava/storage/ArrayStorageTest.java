@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import ru.javawebinar.basejava.model.Resume;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-@Deprecated
+
 public class ArrayStorageTest extends AbstractArrayStorageTest {
 
     public ArrayStorageTest() {

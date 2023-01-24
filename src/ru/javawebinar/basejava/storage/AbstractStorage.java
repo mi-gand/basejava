@@ -1,9 +1,56 @@
 package ru.javawebinar.basejava.storage;
 
+import ru.javawebinar.basejava.exceptions.ExistStorageException;
+import ru.javawebinar.basejava.exceptions.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
 
-import java.util.Arrays;
-
 public abstract class AbstractStorage implements Storage {
-    //как я понимаю тут будет общая часть у List и HashMap(часть 2 дз). Массивы отдельно
+
+    protected abstract void doUpdate(Resume resume, Object searchKey);
+
+    protected abstract boolean isExist(Object searchKey);
+
+    protected abstract Object getSearchKey(String uuid);
+
+    protected abstract Resume doGet(Object searchKey);
+
+    protected abstract void doSave(Resume resume, Object searchKey);
+
+    protected abstract void doDelete(Object searchKey);
+
+    public void update(Resume r) {
+        Object searchKey = getExistedSearchKey(r.getUuid());
+        doUpdate(r, searchKey);
+    }
+
+    public Resume get(String uuid) {
+        Object searchKey = getExistedSearchKey(uuid);
+        return doGet(searchKey);
+    }
+
+    public void save(Resume r) {
+        Object searchKey = getNotExistedSearchKey(r.getUuid());
+        doSave(r, searchKey);
+    }
+
+    public void delete(String uuid) {
+        Object searchKey = getExistedSearchKey(uuid);
+        doDelete(searchKey);
+    }
+
+    private Object getExistedSearchKey(String uuid) {
+        Object searchKey = getSearchKey(uuid);
+        if (!isExist(searchKey)) {
+            throw new NotExistStorageException(uuid);
+        }
+        return searchKey;
+    }
+
+    private Object getNotExistedSearchKey(String uuid) {
+        Object searchKey = getSearchKey(uuid);
+        if (isExist(searchKey)) {
+            throw new ExistStorageException(uuid);
+        }
+        return searchKey;
+    }
 }
