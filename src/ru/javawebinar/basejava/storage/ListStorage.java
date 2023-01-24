@@ -27,7 +27,6 @@ public class ListStorage extends AbstractStorage {
         return (Integer)index >= 0;
     }
 
-
     @Override
     protected Integer getSearchKey(String uuid) {
         for(int i = 0; i < listStorage.size(); i++){
@@ -37,7 +36,6 @@ public class ListStorage extends AbstractStorage {
         }
         return -1;
     }
-
 
     @Override
     protected Resume doGet(Object index) {
