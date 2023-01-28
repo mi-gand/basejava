@@ -14,7 +14,7 @@ public class ArrayStorageTest extends AbstractArrayStorageTest {
     @Deprecated
     @Override
     protected void checkOrder() {
-        Resume[] resumes = storage.getAllinArr();
+        Resume[] resumes = storage.getAll();
         int expectedLength = 4;
         Assertions.assertAll("Deleted u3 in abstractClass",
                 () -> assertEquals(new Resume("u1"), resumes[0]),

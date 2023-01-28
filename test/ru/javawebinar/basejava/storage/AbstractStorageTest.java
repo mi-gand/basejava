@@ -8,6 +8,8 @@ import ru.javawebinar.basejava.exceptions.ExistStorageException;
 import ru.javawebinar.basejava.exceptions.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public abstract class AbstractStorageTest {
 
     protected final Storage storage;
@@ -40,6 +42,16 @@ public abstract class AbstractStorageTest {
     @AfterEach
     void clearAfterTest() {
         storage.clear();
+    }
+
+    @Test
+    void testClear() {
+        storage.clear();
+        Resume[] allResumes = storage.getAll();
+        Assertions.assertAll("Check field \"size\" and array length",
+                () -> assertSize(0),
+                () -> assertEquals(0, allResumes.length)
+        );
     }
 
     @Test
@@ -80,6 +92,24 @@ public abstract class AbstractStorageTest {
         );
     }
 
+    @Test
+    void testGetAll() {
+        Resume[] resumes = storage.getAll();
+        Resume[] expectedResumes = initResumeArray();
+        Assertions.assertArrayEquals(expectedResumes, resumes);
+        Assertions.assertTrue(assertSize(5));
+    }
+
+    Resume[] initResumeArray() {
+        return new Resume[]{
+                new Resume(UUID_1),
+                new Resume(UUID_3),
+                new Resume(UUID_5),
+                new Resume(UUID_7),
+                new Resume(UUID_9),
+        };
+    }
+
     boolean assertGet(Resume resume) {
         return storage.get(resume.getUuid()).equals(resume);
     }
@@ -92,5 +122,4 @@ public abstract class AbstractStorageTest {
     void testGetSize() {
         Assertions.assertTrue(assertSize(5));
     }
-
 }
