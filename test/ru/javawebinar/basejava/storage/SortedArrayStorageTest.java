@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import ru.javawebinar.basejava.model.Resume;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class SortedArrayStorageTest extends AbstractArrayStorageTest {
 
     public SortedArrayStorageTest() {

@@ -1,11 +1,12 @@
 package ru.javawebinar.basejava.storage;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import ru.javawebinar.basejava.exceptions.NotExistStorageException;
 import ru.javawebinar.basejava.exceptions.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.fail;
 import static ru.javawebinar.basejava.storage.AbstractArrayStorage.STORAGE_CAPACITY;
 
 public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
@@ -54,24 +55,6 @@ public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
         );
         checkOrder();
     }
-
-/*    @Test
-    void testGetAll() {
-        Resume[] resumes = storage.getAll();
-        Resume[] expectedResumes = initResumeArray();
-        Assertions.assertArrayEquals(expectedResumes, resumes);
-        Assertions.assertTrue(assertSize(5));
-    }
-
-    Resume[] initResumeArray() {
-        return new Resume[]{
-                new Resume(UUID_1),
-                new Resume(UUID_3),
-                new Resume(UUID_5),
-                new Resume(UUID_7),
-                new Resume(UUID_9),
-        };
-    }*/
 
     @Deprecated
     protected abstract void checkOrder();
