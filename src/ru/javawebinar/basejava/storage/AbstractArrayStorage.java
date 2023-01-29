@@ -50,10 +50,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     @Override
     protected abstract Integer getSearchKey(String uuid);
 
-    public int getStorageCapacity() {
-        return STORAGE_CAPACITY;
-    }
-
     /**
      * @return array, contains only Resumes in storage (without null)
      */

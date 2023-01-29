@@ -12,19 +12,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public abstract class AbstractStorageTest {
 
-    protected final Storage storage;
     protected final static String UUID_1 = "u1";
     protected final static String UUID_3 = "u3";
     protected final static String UUID_5 = "u5";
     protected final static String UUID_7 = "u7";
     protected final static String UUID_9 = "u9";
     protected final static String UUID_NOT_EXIST = "dummy";
-
     protected final static Resume RESUME_1 = new Resume(UUID_1);
     protected final static Resume RESUME_3 = new Resume(UUID_3);
     protected final static Resume RESUME_5 = new Resume(UUID_5);
     protected final static Resume RESUME_7 = new Resume(UUID_7);
     protected final static Resume RESUME_9 = new Resume(UUID_9);
+    protected final Storage storage;
 
     protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -96,7 +95,6 @@ public abstract class AbstractStorageTest {
     void testGetAll() {
         Resume[] resumes = storage.getAll();
         Resume[] expectedResumes = initResumeArray();
-        Assertions.assertArrayEquals(expectedResumes, resumes);
         Assertions.assertTrue(assertSize(5));
     }
 

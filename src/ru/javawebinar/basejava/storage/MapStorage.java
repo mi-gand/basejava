@@ -2,11 +2,12 @@ package ru.javawebinar.basejava.storage;
 
 import ru.javawebinar.basejava.model.Resume;
 
-import java.util.LinkedHashMap;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 public class MapStorage extends AbstractStorage {
-    private final Map<String, Resume> storage = new LinkedHashMap<>();
+    private final Map<String, Resume> storage = new HashMap<>();
 
     @Override
     protected void doUpdate(Resume resume, Object searchKey) {
@@ -19,12 +20,10 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected Integer getSearchKey(String uuid) {
-        int counter = 0;
+    protected String getSearchKey(String uuid) {
         for (Map.Entry<String, Resume> line : storage.entrySet()) {
-            counter++;
             if (line.getKey().equals(uuid)) {
-                return counter;
+                return uuid;
             }
         }
         return null;
@@ -32,14 +31,7 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected Resume doGet(Object searchKey) {
-        int counter = 0;
-        for (Map.Entry<String, Resume> line : storage.entrySet()) {
-            counter++;
-            if (counter == (Integer) searchKey) {
-                return line.getValue();
-            }
-        }
-        throw new RuntimeException("Something wrong");
+        return storage.get(searchKey.toString());
     }
 
     @Override
@@ -49,15 +41,7 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected void doDelete(Object searchKey) {
-        int counter = 0;
-        for (Map.Entry<String, Resume> line : storage.entrySet()) {
-            counter++;
-            if (counter == (Integer) searchKey) {
-                storage.remove(line.getKey());
-                return;
-            }
-        }
-        throw new RuntimeException("Something wrong");
+        storage.remove(searchKey.toString());
     }
 
     @Override
@@ -67,6 +51,8 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     public Resume[] getAll() {
+        Resume[] resumes = storage.values().toArray(new Resume[0]);
+        Arrays.sort(resumes);
         return storage.values().toArray(new Resume[0]);
     }
 
