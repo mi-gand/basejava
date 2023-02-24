@@ -7,6 +7,9 @@ import ru.javawebinar.basejava.storage.SortedArrayStorage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
+
+//import static test.javawebinar.basejava.model.storage.AbstractStorageTest.TEST_FULL_NAME;
 
 /**
  * Interactive test for urise.webapp.storage.ArrayStorage implementation
@@ -14,6 +17,7 @@ import java.io.InputStreamReader;
  */
 public class MainArray {
     private static final AbstractArrayStorage ARRAY_STORAGE = new SortedArrayStorage();
+    public final static String TEST_FULL_NAME = "test_full_name_";
 
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -37,7 +41,7 @@ public class MainArray {
                     System.out.println(ARRAY_STORAGE.getSize());
                     break;
                 case "save":
-                    r = new Resume(uuid);
+                    r = new Resume(uuid, TEST_FULL_NAME);
                     ARRAY_STORAGE.save(r);
                     printAll();
                     break;
@@ -62,9 +66,9 @@ public class MainArray {
     }
 
     static void printAll() {
-        Resume[] all = ARRAY_STORAGE.getAll();
+        List<Resume> all = ARRAY_STORAGE.getAllSorted();
         System.out.println("----------------------------");
-        if (all.length == 0) {
+        if (all.size() == 0) {
             System.out.println("Empty");
         } else {
             for (Resume r : all) {

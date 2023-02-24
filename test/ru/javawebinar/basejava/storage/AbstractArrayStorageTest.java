@@ -15,22 +15,13 @@ public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
         super(storage);
     }
 
-/*    @Test
-    void testClear() {
-        storage.clear();
-        Resume[] allResumes = storage.getAll();
-        Assertions.assertAll("Check field \"size\" and array length",
-                () -> assertSize(0),
-                () -> assertEquals(0, allResumes.length)
-        );
-    }*/
 
     @Test
     void testSaveOverFlow() {
         storage.clear();
         try {
             for (int i = 0; i < STORAGE_CAPACITY; i++) {
-                Resume r = new Resume("u" + i);
+                Resume r = new Resume("u" + i, TEST_FULL_NAME);
                 storage.save(r);
             }
         } catch (StorageException e) {
@@ -39,7 +30,7 @@ public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
         }
         Assertions.assertThrows(StorageException.class,
                 () -> {
-                    storage.save(new Resume("u10001"));
+                    storage.save(new Resume("u10001", TEST_FULL_NAME));
                 }
         );
     }

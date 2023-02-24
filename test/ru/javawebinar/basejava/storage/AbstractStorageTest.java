@@ -8,6 +8,8 @@ import ru.javawebinar.basejava.exceptions.ExistStorageException;
 import ru.javawebinar.basejava.exceptions.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public abstract class AbstractStorageTest {
@@ -18,11 +20,14 @@ public abstract class AbstractStorageTest {
     protected final static String UUID_7 = "u7";
     protected final static String UUID_9 = "u9";
     protected final static String UUID_NOT_EXIST = "dummy";
-    protected final static Resume RESUME_1 = new Resume(UUID_1);
-    protected final static Resume RESUME_3 = new Resume(UUID_3);
-    protected final static Resume RESUME_5 = new Resume(UUID_5);
-    protected final static Resume RESUME_7 = new Resume(UUID_7);
-    protected final static Resume RESUME_9 = new Resume(UUID_9);
+    public final static String TEST_FULL_NAME = "test_full_name_";
+    protected final static Resume RESUME_1 = new Resume(UUID_1, TEST_FULL_NAME + 1);
+    protected final static Resume RESUME_3 = new Resume(UUID_3, TEST_FULL_NAME + 3);
+    protected final static Resume RESUME_5 = new Resume(UUID_5, TEST_FULL_NAME + 5);
+    protected final static Resume RESUME_7 = new Resume(UUID_7, TEST_FULL_NAME + 7);
+    protected final static Resume RESUME_9 = new Resume(UUID_9, TEST_FULL_NAME + 9);
+
+
     protected final Storage storage;
 
     protected AbstractStorageTest(Storage storage) {
@@ -46,21 +51,17 @@ public abstract class AbstractStorageTest {
     @Test
     void testClear() {
         storage.clear();
-        Resume[] allResumes = storage.getAll();
-        Assertions.assertAll("Check field \"size\" and array length",
-                () -> assertSize(0),
-                () -> assertEquals(0, allResumes.length)
-        );
+        Assertions.assertTrue(storage.getAllSorted().isEmpty());
     }
 
     @Test
     void testUpdate() {
-        Resume resume3 = new Resume(UUID_3);
+        Resume resume3 = new Resume(UUID_3, TEST_FULL_NAME + 3);
         storage.update(resume3);
         Assertions.assertEquals(storage.get(UUID_3), resume3);
         Assertions.assertThrows(NotExistStorageException.class,
                 () -> {
-                    Resume notExist = new Resume(UUID_NOT_EXIST);
+                    Resume notExist = new Resume(UUID_NOT_EXIST, TEST_FULL_NAME + 0);
                     storage.update(notExist);
                 }
         );
@@ -68,7 +69,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     void testSave() {
-        Resume r10 = new Resume("u10");
+        Resume r10 = new Resume("u10", TEST_FULL_NAME + 10);
         storage.save(r10);
         Assertions.assertTrue(assertGet(r10));
         Assertions.assertTrue(assertSize(6));
@@ -81,31 +82,31 @@ public abstract class AbstractStorageTest {
 
     @Test
     void testGet() {
-        Assertions.assertTrue(assertGet(new Resume(UUID_1)));
-        Assertions.assertTrue(assertGet(new Resume(UUID_3)));
-        Assertions.assertTrue(assertGet(new Resume(UUID_5)));
-        Assertions.assertTrue(assertGet(new Resume(UUID_7)));
+        Assertions.assertTrue(assertGet(new Resume(UUID_1, TEST_FULL_NAME + 1)));
+        Assertions.assertTrue(assertGet(new Resume(UUID_3, TEST_FULL_NAME + 3)));
+        Assertions.assertTrue(assertGet(new Resume(UUID_5, TEST_FULL_NAME + 5)));
+        Assertions.assertTrue(assertGet(new Resume(UUID_7, TEST_FULL_NAME + 7)));
         Assertions.assertThrows(NotExistStorageException.class,
-                () -> assertGet(new Resume(UUID_NOT_EXIST)
+                () -> assertGet(new Resume(UUID_NOT_EXIST, TEST_FULL_NAME + 0)
                 )
         );
     }
 
     @Test
     void testGetAll() {
-        Resume[] resumes = storage.getAll();
-        Resume[] expectedResumes = initResumeArray();
+        List<Resume> resumes = storage.getAllSorted();
+        List<Resume> expectedResumes = initResumeArray();
         Assertions.assertTrue(assertSize(5));
     }
 
-    Resume[] initResumeArray() {
-        return new Resume[]{
-                new Resume(UUID_1),
-                new Resume(UUID_3),
-                new Resume(UUID_5),
-                new Resume(UUID_7),
-                new Resume(UUID_9),
-        };
+    List <Resume> initResumeArray() {
+        return List.of(
+                new Resume(UUID_1, TEST_FULL_NAME + 1),
+                new Resume(UUID_3, TEST_FULL_NAME + 3),
+                new Resume(UUID_5, TEST_FULL_NAME + 5),
+                new Resume(UUID_7, TEST_FULL_NAME + 7),
+                new Resume(UUID_9, TEST_FULL_NAME + 9)
+                );
     }
 
     boolean assertGet(Resume resume) {

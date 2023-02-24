@@ -4,10 +4,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.javawebinar.basejava.exceptions.NotExistStorageException;
 
-class MapStorageTest extends AbstractStorageTest {
+import static org.junit.jupiter.api.Assertions.*;
 
-    protected MapStorageTest() {
-        super(new MapStorage());
+class MapResumeStorageTest  extends AbstractStorageTest {
+
+    protected MapResumeStorageTest() {
+        super(new MapResumeStorage());
     }
 
     @Test
