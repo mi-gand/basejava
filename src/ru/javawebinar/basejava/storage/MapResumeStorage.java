@@ -2,11 +2,10 @@ package ru.javawebinar.basejava.storage;
 
 import ru.javawebinar.basejava.model.Resume;
 
-import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class MapResumeStorage extends AbstractStorage {
 
@@ -39,7 +38,7 @@ public class MapResumeStorage extends AbstractStorage {
 
     @Override
     protected void doDelete(Object resume) {
-        storage.remove(((Resume)resume).getUuid());
+        storage.remove(((Resume) resume).getUuid());
     }
 
     @Override
@@ -48,13 +47,8 @@ public class MapResumeStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAllSorted() {
-        return storage
-                .values()
-                .stream()
-                .sorted()
-                .sorted(Comparator.comparing(Resume::getFullName))
-                .collect(Collectors.toList());
+    protected List<Resume> doCopyAll() {
+        return new ArrayList<>(storage.values());
     }
 
     @Override

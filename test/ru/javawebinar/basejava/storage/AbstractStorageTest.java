@@ -10,7 +10,6 @@ import ru.javawebinar.basejava.model.Resume;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public abstract class AbstractStorageTest {
 
@@ -26,8 +25,6 @@ public abstract class AbstractStorageTest {
     protected final static Resume RESUME_5 = new Resume(UUID_5, TEST_FULL_NAME + 5);
     protected final static Resume RESUME_7 = new Resume(UUID_7, TEST_FULL_NAME + 7);
     protected final static Resume RESUME_9 = new Resume(UUID_9, TEST_FULL_NAME + 9);
-
-
     protected final Storage storage;
 
     protected AbstractStorageTest(Storage storage) {
@@ -99,14 +96,14 @@ public abstract class AbstractStorageTest {
         Assertions.assertTrue(assertSize(5));
     }
 
-    List <Resume> initResumeArray() {
+    List<Resume> initResumeArray() {
         return List.of(
                 new Resume(UUID_1, TEST_FULL_NAME + 1),
                 new Resume(UUID_3, TEST_FULL_NAME + 3),
                 new Resume(UUID_5, TEST_FULL_NAME + 5),
                 new Resume(UUID_7, TEST_FULL_NAME + 7),
                 new Resume(UUID_9, TEST_FULL_NAME + 9)
-                );
+        );
     }
 
     boolean assertGet(Resume resume) {

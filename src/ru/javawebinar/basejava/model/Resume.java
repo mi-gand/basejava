@@ -10,7 +10,7 @@ public class Resume implements Comparable<Resume> {
 
     // Unique identifier
     private String uuid;
-    private String fullName = "NoName";
+    private String fullName;
 
     public Resume() {
         this.uuid = UUID.randomUUID().toString();
@@ -21,7 +21,7 @@ public class Resume implements Comparable<Resume> {
     }
 
     public Resume(String uuid, String fullName) {
-        this.uuid = uuid;
+        this(uuid);
         this.fullName = fullName;
     }
 
